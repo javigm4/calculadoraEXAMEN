@@ -1,24 +1,51 @@
 import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+const botones = document.getElementById("buttons");
+  const pantalla = document.getElementById("screen");
+  let expresion = ""; // Variable para almacenar la expresión actual
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+  botones.addEventListener("click", function (e) {
+    const key = e.target.getAttribute("data-key");
 
-setupCounter(document.querySelector('#counter'))
+    if (key === "clear") {
+      limpiar();
+    } else if (key === "equal") {
+      calcular();
+    } else {
+      if (key === "+" || key === "-" || key === "*" || key === "/") {
+        expresion += key;
+        mostrar(key);
+      }
+      else{
+        expresion += key;
+        mostrar(key);
+      }
+    }
+  });
+
+
+  function calcular() {
+    try {
+      const resultado = eval(expresion); // Evalúa la expresión
+      pantalla.style.color = "#c0c0c0";
+      pantalla.style.fontSize = "3rem";
+
+      pantalla.innerHTML = resultado; // Muestra el resultado
+      expresion = ""; // Reinicia la expresión después de calcular
+
+    } catch (error) {
+      pantalla.innerHTML = error.message;
+      pantalla.style.fontSize = "1rem";
+      pantalla.style.color = "red";
+    }
+  }
+
+  function limpiar() {
+    pantalla.innerHTML = ""; // Limpia la pantalla
+    pantalla.style.fontSize = "3rem"; // Tamaño de letra por defecto
+    expresion = ""; // Reinicia la expresión
+  }
+
+  function mostrar(caracter) {
+    pantalla.innerHTML += caracter; // Muestra el carácter en la pantalla
+    pantalla.style.fontSize = "3rem"; // Tamaño de letra por defecto
+  }
